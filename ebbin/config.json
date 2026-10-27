@@ -1,0 +1,12 @@
+{
+  "budget_min": 20,
+  "pomodoro": {"focus": 20, "short": 5, "long": 15, "cycles": 4, "autostart": false, "idle_pause_s": 120},
+  "easy_cap": {"enabled": true, "ratio": 1.5, "first_max_days": 4},
+  "sounds": {"enabled": true, "volume": 0.8},
+  "dark_theme": "night",
+  "skin": true,
+  "import": {"move_after": true, "dest": "~/Downloads/anki-importados", "dupe": "preserve"},
+  "auto_new_per_day": false,
+  "mastered_days": 21,
+  "rescued_r": 0.85
+}

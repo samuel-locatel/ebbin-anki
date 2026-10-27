@@ -1,0 +1,107 @@
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<svg width="0" height="0" style="position:absolute">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+  <filter id="rough2"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.2"/></filter>
+</svg>
+<style>
+  .k { --paper:#fbfaf6; --ink:#1f1f1f; --muted:#7a7a74; --line:#e3e1d9; --terra:#cf6f55; --green:#3f7d6a; --hl:#f7ddd4;
+       font-family:'Iowan Old Style','Source Serif 4',Georgia,serif; color:var(--ink); background:#e9e8e3; padding:28px; border-radius:6px; }
+  .k .hand { font-family:'Caveat',cursive; font-weight:600; }
+  .win { position:relative; background:var(--paper); padding:22px 28px 26px; }
+  .win::before { content:""; position:absolute; inset:0; border:2.4px solid var(--ink); border-radius:14px; filter:url(#rough); pointer-events:none; }
+  .tabs { display:flex; gap:30px; align-items:flex-end; border-bottom:1px solid var(--line); padding-bottom:10px; font-size:21px; color:var(--muted); }
+  .tabs .on { color:var(--ink); position:relative; }
+  .tabs .on::after { content:""; position:absolute; left:-4px; right:-4px; bottom:-12px; height:4px; background:var(--terra); border-radius:3px; filter:url(#rough2); transform:rotate(-.6deg); }
+  .badge { display:inline-grid; place-items:center; background:var(--ink); color:#fff; border-radius:50%; width:22px; height:22px; font-size:13px; margin-left:4px; vertical-align:2px; }
+  .lnk { text-decoration:underline; text-underline-offset:5px; text-decoration-thickness:1.4px; color:var(--ink); font-size:18px; }
+  .btn { background:var(--ink); color:#fff; padding:11px 22px; font-size:18px; font-weight:600; display:inline-block; position:relative; font-family:-apple-system,system-ui,sans-serif; }
+  .btn::before { content:""; position:absolute; inset:-1px; background:var(--ink); filter:url(#rough2); z-index:-1; }
+  .tag { position:relative; padding:0 6px; font-size:24px; }
+  .tag::before { content:""; position:absolute; left:0; right:0; top:55%; bottom:6%; background:var(--hl); z-index:-1; transform:skew(-6deg); }
+  .muted { color:var(--muted); }
+  .bar { position:relative; height:18px; margin:6px 0 4px; }
+  .bar .frame { position:absolute; inset:0; border:2px solid var(--ink); border-radius:10px; filter:url(#rough2); }
+  .bar .a { position:absolute; left:4px; top:4px; bottom:4px; width:46%; background:repeating-linear-gradient(-50deg,var(--ink) 0 2px,transparent 2px 6px); border-radius:6px; }
+  .bar .b { position:absolute; left:calc(46% + 4px); top:4px; bottom:4px; width:20%; background:repeating-linear-gradient(-50deg,var(--terra) 0 2.4px,transparent 2.4px 5px); border-radius:6px; }
+  .days { display:flex; gap:8px; }
+  .day { width:30px; height:30px; display:grid; place-items:center; font-family:'Caveat'; font-size:20px; position:relative; }
+  .day::before { content:""; position:absolute; inset:0; border:1.8px solid var(--green); border-radius:50%; filter:url(#rough2); }
+  .day.done { color:#fff; } .day.done::before { background:var(--green); }
+  .day.today::before { border-color:var(--terra); background:var(--terra); }
+  .day.off { color:var(--muted); } .day.off::before { border-color:#c9c7bf; }
+  .deck { display:flex; justify-content:space-between; padding:12px 2px; border-bottom:1px solid var(--line); font-size:19px; }
+  .deck .n { font-family:-apple-system,system-ui,sans-serif; font-size:15px; }
+  .n .nw{color:#3b6fb6} .n .lr{color:var(--terra)} .n .rv{color:var(--green)}
+  .stamp { position:absolute; right:26px; top:-16px; transform:rotate(4deg); background:var(--paper); padding:2px 12px; font-family:'Caveat'; font-weight:700; font-size:30px; color:var(--terra); }
+  .stamp::before { content:""; position:absolute; inset:0; border:2.2px solid var(--terra); border-radius:10px; filter:url(#rough2); }
+  .big { font-family:'Caveat'; font-weight:700; font-size:68px; line-height:.9; color:var(--terra); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px 30px; }
+  .circ { display:inline-grid; place-items:center; width:26px; height:26px; font-family:'Caveat'; font-size:19px; color:var(--green); position:relative; margin-right:8px; }
+  .circ::before { content:""; position:absolute; inset:0; border:1.6px solid var(--green); border-radius:50%; filter:url(#rough2); }
+  .overlay { position:relative; }
+  .label2 { font-family:-apple-system,system-ui,sans-serif; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#8a8a8a; margin:0 0 8px 4px; }
+</style>
+
+<h2>v2 — A + B no estilo da sua referência</h2>
+<p class="subtitle">Papel creme, texto serifado, toques à mão (manuscrito, marca-texto, círculos e bordas tremidas), botões pretos. Mais sóbrio que o v1, sem emoji e sem pauta.</p>
+
+<div class="split">
+  <div>
+    <p class="label2">B · tela inicial (sempre visível)</p>
+    <div class="k"><div class="win">
+      <div class="stamp">+412 XP</div>
+      <div class="tabs"><span class="on">Hoje</span><span>Métricas</span><span>Curva</span><span>Configurações</span></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:18px">
+        <div><span class="tag hand">nível 7</span> <span class="muted" style="font-size:17px">· Memory Mover</span></div>
+        <span class="muted" style="font-size:16px">1.180 / 1.360 XP</span>
+      </div>
+      <div class="bar"><div class="frame"></div><div class="a"></div><div class="b"></div></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px">
+        <div class="days">
+          <span class="day done">s</span><span class="day done">t</span><span class="day done">q</span><span class="day done">q</span><span class="day done">s</span><span class="day today">s</span><span class="day off">d</span>
+        </div>
+        <span class="hand" style="font-size:26px">12 dias seguidos</span>
+      </div>
+
+      <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:18px"><span class="circ">✓</span>Desafio: <b>37 cards</b> em 20 min</div>
+        <span class="lnk">⏱ começar 20:00</span>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="deck"><span>Concurso - CGU 2026</span><span class="n"><span class="nw">12</span> · <span class="lr">3</span> · <span class="rv">22</span></span></div>
+        <div class="deck" style="padding-left:22px"><span>Programacao</span><span class="n"><span class="nw">8</span> · <span class="lr">1</span> · <span class="rv">14</span></span></div>
+        <div class="deck" style="padding-left:22px;border:0"><span>BancoDeDados</span><span class="n"><span class="nw">4</span> · <span class="lr">2</span> · <span class="rv">8</span></span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div>
+    <p class="label2">A · pop-up ao fim da sessão</p>
+    <div class="k"><div class="win">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="hand" style="font-size:34px">sessão concluída</span><span style="font-size:26px" class="muted">✕</span>
+      </div>
+      <div style="display:flex;gap:22px;align-items:flex-end;margin:10px 0 6px">
+        <span class="big">+412</span>
+        <div class="muted" style="font-size:16px;line-height:1.5">XP nesta sessão<br>37 revisões · 89% de acerto · 19m40s</div>
+      </div>
+
+      <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:baseline">
+        <span class="tag hand">nível 7</span><span class="muted" style="font-size:15px">faltam 180 XP p/ o nível 8</span>
+      </div>
+      <div class="bar"><div class="frame"></div><div class="a"></div><div class="b"></div></div>
+      <div class="muted" style="font-size:14px"><span style="color:var(--ink)">▨</span> antes &nbsp; <span style="color:var(--terra)">▨</span> ganho hoje</div>
+
+      <div class="grid2" style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:17px">
+        <div><span class="circ">✓</span>Desafio cumprido <span class="muted">+80</span></div>
+        <div><span class="circ" style="color:var(--terra)">12</span>dias seguidos <span class="muted">+20</span></div>
+        <div class="muted" style="font-size:15px;grid-column:1/3">Amanhã: ~34 revisões previstas · cabe nos 20 min</div>
+      </div>
+
+      <div style="text-align:right;margin-top:18px"><span class="btn">Fechar</span></div>
+    </div></div>
+  </div>
+</div>

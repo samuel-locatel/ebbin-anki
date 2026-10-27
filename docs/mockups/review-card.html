@@ -1,0 +1,100 @@
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<svg width="0" height="0" style="position:absolute">
+  <filter id="r1"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+  <filter id="r2"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.2"/></filter>
+</svg>
+<style>
+  .rv { --desk:#151413; --paper:#1d1c1a; --ink:#ece8df; --muted:#9a968c; --line:#34322e; --terra:#e58a6f; --green:#7fbfa6; --hl:#5a3a31; --blue:#8fb3e0;
+        font-family:'Iowan Old Style','Source Serif 4',Georgia,serif; color:var(--ink); background:var(--desk); border-radius:8px; overflow:hidden; }
+  .hand { font-family:'Caveat',cursive; font-weight:600; }
+  .muted { color:var(--muted); }
+  .rough { position:relative; } .rough::before { content:""; position:absolute; inset:0; border:2.2px solid var(--ink); border-radius:14px; filter:url(#r1); pointer-events:none; opacity:.85; }
+  /* HUD */
+  .hud { display:grid; grid-template-columns:auto 1fr auto; gap:18px; align-items:center; padding:14px 22px 10px; }
+  .lvl { display:flex; align-items:baseline; gap:8px; }
+  .tag { position:relative; padding:0 6px; font-size:22px; } .tag::before { content:""; position:absolute; left:0; right:0; top:55%; bottom:6%; background:var(--hl); transform:skew(-6deg); z-index:0;} .tag span{position:relative}
+  .prog { position:relative; height:16px; }
+  .prog .f { position:absolute; inset:0; border:2px solid var(--ink); border-radius:10px; filter:url(#r2); }
+  .prog .a { position:absolute; left:4px; top:4px; bottom:4px; width:56%; background:repeating-linear-gradient(-50deg,var(--green) 0 2.4px,transparent 2.4px 6px); }
+  .prog .lab { position:absolute; right:0; top:-22px; font-size:14px; }
+  .right { display:flex; gap:16px; align-items:center; }
+  .ring { width:30px; height:30px; }
+  .combo { font-family:'Caveat'; font-weight:700; font-size:28px; color:var(--terra); }
+  .plus { font-family:'Caveat'; font-weight:700; font-size:24px; color:var(--terra); transform:rotate(-4deg); display:inline-block; }
+  /* card */
+  .stage { padding:26px 40px 34px; min-height:330px; display:flex; justify-content:center; }
+  .card { width:min(760px,100%); background:var(--paper); padding:30px 36px 34px; }
+  .card .q { font-size:23px; line-height:1.55; }
+  .card .kind { font-size:20px; margin-bottom:10px; }
+  .card hr { border:0; height:2px; background:var(--line); margin:22px 0; filter:url(#r2); }
+  .ans { font-size:18px; line-height:1.6; }
+  .circ { display:inline-grid; place-items:center; width:30px; height:30px; font-family:'Caveat'; font-size:22px; position:relative; margin-right:10px; vertical-align:-6px; }
+  .circ::before { content:""; position:absolute; inset:0; border:1.8px solid currentColor; border-radius:50%; filter:url(#r2); }
+  /* bottom */
+  .bottom { display:flex; justify-content:center; gap:14px; padding:14px 0 18px; border-top:1px solid var(--line); background:#1a1918; }
+  .b { position:relative; padding:9px 18px; font-size:17px; text-align:center; min-width:96px; }
+  .b::before { content:""; position:absolute; inset:0; border:2px solid currentColor; border-radius:12px; filter:url(#r2); }
+  .b small { display:block; font-family:'Caveat'; font-size:18px; color:var(--muted); }
+  .b.solid { background:var(--ink); color:#1d1c1a; } .b.solid::before{border-color:var(--ink)}
+  .counts { font-family:-apple-system,system-ui; font-size:14px; text-align:center; padding-top:8px; background:#1a1918; }
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .lbl { font-family:-apple-system,system-ui,sans-serif; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#8a8a8a; margin:0 0 8px 4px; }
+</style>
+
+<h2>Revisão com visual desenhado — frente e verso</h2>
+<p class="subtitle">Tema "Caderno à noite". Topo: nível + XP total, barra de progresso do baralho (cards da sessão / meta do dia), pomodoro e combo — numa faixa própria que empurra o card pra baixo (nada sobreposto). O card vira uma folha com borda à mão; botões de baixo também.</p>
+
+<div class="split">
+<div>
+<p class="lbl">frente (pergunta)</p>
+<div class="rv">
+  <div class="hud">
+    <div class="lvl"><span class="tag hand"><span>nível 4</span></span><span class="muted" style="font-size:15px">1.284 XP</span></div>
+    <div class="prog"><div class="f"></div><div class="a"></div><span class="lab muted hand">21 de 37 · faltam 16</span></div>
+    <div class="right">
+      <svg class="ring" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="#34322e" stroke-width="3"/><circle cx="15" cy="15" r="12" fill="none" stroke="#e58a6f" stroke-width="3" stroke-dasharray="75" stroke-dashoffset="20" style="filter:url(#r2)" transform="rotate(-90 15 15)"/></svg>
+      <span class="hand" style="font-size:22px">15:27</span>
+      <span class="combo">×1,5</span>
+    </div>
+  </div>
+  <div class="stage">
+    <div class="card rough">
+      <div class="kind"><span class="tag hand"><span>certo/errado</span></span> <span class="muted" style="font-size:15px">ISO 27001</span></div>
+      <div class="q">De acordo com a ISO/IEC 27001, a aprovação do plano de tratamento de riscos de segurança da informação e a aceitação dos riscos residuais devem ser formalizadas pela alta direção da organização.</div>
+    </div>
+  </div>
+  <div class="counts"><span style="color:#8fb3e0">13</span> + <span style="color:#e58a6f">5</span> + <span style="color:#7fbfa6;text-decoration:underline">23</span></div>
+  <div class="bottom"><div class="b">Editar</div><div class="b solid">Mostrar resposta</div><div class="b">Mais ▾</div></div>
+</div>
+</div>
+
+<div>
+<p class="lbl">verso (resposta + botões) · logo após acertar</p>
+<div class="rv">
+  <div class="hud">
+    <div class="lvl"><span class="tag hand"><span>nível 4</span></span><span class="muted" style="font-size:15px">1.299 XP</span> <span class="plus">+15</span></div>
+    <div class="prog"><div class="f"></div><div class="a" style="width:59%"></div><span class="lab muted hand">22 de 37 · faltam 15</span></div>
+    <div class="right">
+      <svg class="ring" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="#34322e" stroke-width="3"/><circle cx="15" cy="15" r="12" fill="none" stroke="#e58a6f" stroke-width="3" stroke-dasharray="75" stroke-dashoffset="21" style="filter:url(#r2)" transform="rotate(-90 15 15)"/></svg>
+      <span class="hand" style="font-size:22px">15:02</span>
+      <span class="combo">×1,5</span>
+    </div>
+  </div>
+  <div class="stage">
+    <div class="card rough">
+      <div class="kind"><span class="tag hand"><span>certo/errado</span></span></div>
+      <div class="q" style="font-size:20px">De acordo com a ISO/IEC 27001, a aprovação do plano de tratamento de riscos … pela alta direção da organização.</div>
+      <hr>
+      <div class="ans"><span class="circ" style="color:#7fbfa6">C</span><b>CERTO.</b> A 27001 exige que a alta direção aprove o plano de tratamento e aceite formalmente os riscos residuais (cláusula 6.1.3 f).</div>
+    </div>
+  </div>
+  <div class="counts"><span style="color:#8fb3e0">13</span> + <span style="color:#e58a6f">4</span> + <span style="color:#7fbfa6">23</span></div>
+  <div class="bottom">
+    <div class="b" style="color:#e58a6f">Errei<small>1 min</small></div>
+    <div class="b" style="color:#d9b46a">Difícil<small>6 min</small></div>
+    <div class="b" style="color:#7fbfa6">Bom<small>2 dias</small></div>
+    <div class="b" style="color:#8fb3e0">Fácil<small>3 dias</small></div>
+  </div>
+</div>
+</div>
+</div>

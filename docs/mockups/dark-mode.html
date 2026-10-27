@@ -1,0 +1,82 @@
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<svg width="0" height="0" style="position:absolute">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter>
+  <filter id="rough2"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.2"/></filter>
+  <filter id="chalk"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="2" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.6 1.25" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter>
+</svg>
+<style>
+  .k { font-family:'Iowan Old Style','Source Serif 4',Georgia,serif; color:var(--ink); background:var(--desk); padding:20px; border-radius:6px; }
+  .light { --desk:#e9e8e3; --paper:#fbfaf6; --ink:#1f1f1f; --muted:#7a7a74; --line:#e3e1d9; --terra:#cf6f55; --green:#3f7d6a; --hl:#f7ddd4; --btnfg:#fff; }
+  .night { --desk:#121212; --paper:#1d1c1a; --ink:#ece8df; --muted:#9a968c; --line:#34322e; --terra:#e58a6f; --green:#7fbfa6; --hl:#5a3a31; --btnfg:#1d1c1a; }
+  .slate { --desk:#0f1412; --paper:#1f2a26; --ink:#eef0ea; --muted:#a7b3ac; --line:#34433d; --terra:#f2a08a; --green:#a8e0c8; --hl:#6b4a3f; --btnfg:#1f2a26; }
+  .slate .chalky { filter:url(#chalk); }
+  .k .hand { font-family:'Caveat',cursive; font-weight:600; }
+  .win { position:relative; background:var(--paper); padding:18px 22px 20px; }
+  .win::before { content:""; position:absolute; inset:0; border:2.4px solid var(--ink); border-radius:14px; filter:url(#rough); pointer-events:none; opacity:.9; }
+  .tabs { display:flex; gap:20px; border-bottom:1px solid var(--line); padding-bottom:8px; font-size:17px; color:var(--muted); }
+  .tabs .on { color:var(--ink); position:relative; }
+  .tabs .on::after { content:""; position:absolute; left:-3px; right:-3px; bottom:-10px; height:4px; background:var(--terra); border-radius:3px; filter:url(#rough2); }
+  .tag { position:relative; padding:0 6px; font-size:22px; }
+  .tag::before { content:""; position:absolute; left:0; right:0; top:55%; bottom:6%; background:var(--hl); z-index:0; transform:skew(-6deg); }
+  .tag span { position:relative; }
+  .muted { color:var(--muted); }
+  .bar { position:relative; height:16px; margin:6px 0 4px; }
+  .bar .frame { position:absolute; inset:0; border:2px solid var(--ink); border-radius:10px; filter:url(#rough2); }
+  .bar .a { position:absolute; left:4px; top:4px; bottom:4px; width:46%; background:repeating-linear-gradient(-50deg,var(--ink) 0 2px,transparent 2px 6px); }
+  .bar .b { position:absolute; left:calc(46% + 4px); top:4px; bottom:4px; width:20%; background:repeating-linear-gradient(-50deg,var(--terra) 0 2.4px,transparent 2.4px 5px); }
+  .days { display:flex; gap:6px; }
+  .day { width:26px; height:26px; display:grid; place-items:center; font-family:'Caveat'; font-size:18px; position:relative; }
+  .day::before { content:""; position:absolute; inset:0; border:1.8px solid var(--green); border-radius:50%; filter:url(#rough2); }
+  .day b { position:relative; font-weight:600; }
+  .day.done b { color:var(--btnfg); } .day.done::before { background:var(--green); }
+  .day.today::before { border-color:var(--terra); background:var(--terra); } .day.today b{color:var(--btnfg);}
+  .day.off { color:var(--muted); } .day.off::before { border-color:var(--line); }
+  .stamp { position:absolute; right:20px; top:-14px; transform:rotate(4deg); background:var(--paper); padding:0 10px; font-family:'Caveat'; font-weight:700; font-size:26px; color:var(--terra); }
+  .stamp::before { content:""; position:absolute; inset:0; border:2.2px solid var(--terra); border-radius:10px; filter:url(#rough2); }
+  .btn { background:var(--ink); color:var(--btnfg); padding:7px 14px; font-size:15px; font-weight:600; font-family:-apple-system,system-ui,sans-serif; display:inline-block; }
+  .deck { display:flex; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--line); font-size:16px; }
+  .label2 { font-family:-apple-system,system-ui,sans-serif; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#8a8a8a; margin:0 0 8px 4px; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+</style>
+
+<h2>Modo claro e escuro — mesmo estilo à mão</h2>
+<p class="subtitle">O addon segue o modo do Anki automaticamente. Claro fica como você aprovou; pro escuro, duas leituras. Clique na que preferir.</p>
+
+<template id="tpl">
+  <div class="win">
+    <div class="stamp chalky">+412 XP</div>
+    <div class="tabs"><span class="on">Hoje</span><span>Métricas</span><span>Objetivos</span><span>Ajustes</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:14px">
+      <div><span class="tag hand chalky"><span>nível 7</span></span> <span class="muted" style="font-size:15px">· Memory Mover</span></div>
+      <span class="muted" style="font-size:14px">1.180 / 1.360</span>
+    </div>
+    <div class="bar chalky"><div class="frame"></div><div class="a"></div><div class="b"></div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+      <div class="days chalky"><span class="day done"><b>s</b></span><span class="day done"><b>t</b></span><span class="day done"><b>q</b></span><span class="day done"><b>q</b></span><span class="day done"><b>s</b></span><span class="day today"><b>s</b></span><span class="day off"><b>d</b></span></div>
+      <span class="hand chalky" style="font-size:22px">12 dias</span>
+    </div>
+    <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-size:15px">
+      <span>CGU 2026 · <b>41 dias</b></span><span class="btn">⏱ 20:00</span>
+    </div>
+    <div class="deck"><span>Programacao</span><span class="muted">8 · 1 · 14</span></div>
+    <div class="deck" style="border:0"><span>BancoDeDados</span><span class="muted">4 · 2 · 8</span></div>
+  </div>
+</template>
+
+<div class="cards">
+  <div class="card" data-choice="light-ref" style="cursor:default">
+    <div class="card-image k light" data-fill></div>
+    <div class="card-body"><h3>Claro (aprovado)</h3><p>Referência.</p></div>
+  </div>
+  <div class="card" data-choice="dark-notebook" onclick="toggleSelect(this)">
+    <div class="card-image k night" data-fill></div>
+    <div class="card-body"><h3>A · Caderno à noite</h3><p>Papel grafite quente, tinta creme. Mesmo traço do claro, só invertido.</p></div>
+  </div>
+  <div class="card" data-choice="dark-slate" onclick="toggleSelect(this)">
+    <div class="card-image k slate" data-fill></div>
+    <div class="card-body"><h3>B · Quadro-negro</h3><p>Lousa verde-escura, traços com textura de giz.</p></div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll('[data-fill]').forEach(el => el.appendChild(document.getElementById('tpl').content.cloneNode(true)));
+</script>

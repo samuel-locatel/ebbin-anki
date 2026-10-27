@@ -1,0 +1,72 @@
+<style>
+  .sg { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .sg .col { border:1px solid #ddd; border-radius:10px; padding:14px; }
+  .sg button { display:inline-block; margin:4px 6px 4px 0; padding:9px 14px; font-size:15px; border-radius:8px; border:1px solid #bbb; background:#fff; cursor:pointer; }
+  .sg button:hover { background:#f4f1ea; }
+  .sg button.fixed { background:#eef6f1; border-color:#9cc5b0; }
+  .sg h3 { margin:0 0 4px; } .sg p { margin:0 0 8px; font-size:13px; color:#777; }
+</style>
+
+<h2>Sons v2 — tudo na vibe "moeda / plink"</h2>
+<p class="subtitle">Verde = os que você aprovou (mantidos iguais). Pros outros, 2 variações cada (A / B). Me diga no terminal qual letra prefere em cada um.</p>
+
+<div class="sg">
+  <div class="col"><h3>Acerto (Bom) ✓</h3><p>Mantido.</p>
+    <button class="fixed" onclick="S.good()">▶ tocar</button></div>
+  <div class="col"><h3>Erro (De novo) ✓</h3><p>Mantido.</p>
+    <button class="fixed" onclick="S.again()">▶ tocar</button></div>
+
+  <div class="col"><h3>Acerto (Fácil)</h3><p>A: moeda com brilho extra no fim · B: moeda dupla, mais alta</p>
+    <button onclick="S.easyA()">A</button><button onclick="S.easyB()">B</button></div>
+  <div class="col"><h3>Difícil</h3><p>A: moeda mais grave e curta · B: moeda "abafada"</p>
+    <button onclick="S.hardA()">A</button><button onclick="S.hardB()">B</button></div>
+
+  <div class="col"><h3>Combo (acertos seguidos)</h3><p>Cada acerto a moeda sobe um degrau. A: sobe por escala (melódico) · B: sobe meio-tom (tenso, estilo coleta rápida)</p>
+    <button onclick="S.comboA()">A ×8</button><button onclick="S.comboB()">B ×8</button></div>
+  <div class="col"><h3>Subiu de nível</h3><p>A: arpejo de moedas + brilho sustentado · B: "fanfarrinha" de 3 notas + cascata</p>
+    <button onclick="S.levelA()">A</button><button onclick="S.levelB()">B</button></div>
+
+  <div class="col"><h3>Desafio do dia cumprido</h3><p>A: chuva de moedas (jackpot) · B: duas moedas + acorde final</p>
+    <button onclick="S.doneA()">A</button><button onclick="S.doneB()">B</button></div>
+  <div class="col"><h3>Pomodoro terminou</h3><p>Mais calmo, pra não assustar. A: "ding-dong" · B: três plinks descendo devagar</p>
+    <button onclick="S.pomoA()">A</button><button onclick="S.pomoB()">B</button></div>
+</div>
+
+<script>
+window.S = (function(){
+  let ctx;
+  const A = () => (ctx = ctx || new (window.AudioContext||window.webkitAudioContext)());
+  function tone(type, f0, f1, dur, vol, t0=0, attack=0.004){
+    const c=A(), t=c.currentTime+t0, o=c.createOscillator(), g=c.createGain();
+    o.type=type; o.frequency.setValueAtTime(f0,t);
+    if(f1) o.frequency.exponentialRampToValueAtTime(f1,t+dur);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+attack);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g).connect(c.destination); o.start(t); o.stop(t+dur+0.02);
+  }
+  const st=n=>Math.pow(2,n/12);
+  const B=880;
+  // the approved coin
+  function coin(f=B,t=0,v=1,tail=0.28){ tone('triangle',f,0,0.09,0.25*v,t); tone('triangle',f*1.5,0,tail,0.25*v,t+0.07); tone('sine',f*3,0,tail*0.7,0.06*v,t+0.07); }
+  function plink(f,t=0,v=1,d=0.22){ tone('triangle',f,0,d,0.22*v,t); tone('sine',f*2,0,d*0.6,0.05*v,t); }
+  return {
+    good:()=>coin(),
+    again:()=>tone('triangle',B*0.5,B*0.42,0.18,0.18),
+    easyA:()=>{ coin(); [0,1,2].forEach(i=>tone('sine',B*3*st(i*4),0,0.12,0.05,0.2+i*0.05)); },
+    easyB:()=>{ coin(B*st(5),0); coin(B*st(12),0.11,0.8); },
+    hardA:()=>{ tone('triangle',B*st(-5),0,0.07,0.22); tone('triangle',B*st(-5)*1.5,0,0.14,0.2,0.06); },
+    hardB:()=>{ tone('triangle',B*0.75,0,0.08,0.2); tone('sine',B*0.75*1.5,0,0.16,0.18,0.06); },
+    comboA:()=>{ const sc=[0,2,4,5,7,9,11,12]; sc.forEach((n,i)=>coin(B*st(n),i*0.28)); },
+    comboB:()=>{ for(let i=0;i<8;i++) coin(B*st(i),i*0.22,1,0.2); },
+    levelA:()=>{ [0,4,7,12].forEach((n,i)=>coin(B*st(n),i*0.1,0.9,0.18));
+                 [12,16,19].forEach(n=>tone('triangle',B*st(n),0,1.1,0.08,0.45,0.03)); tone('sine',B*st(24),0,0.9,0.03,0.5,0.05); },
+    levelB:()=>{ plink(B*st(7),0); plink(B*st(7),0.12); plink(B*st(12),0.24,1.2,0.5);
+                 for(let i=0;i<6;i++) tone('sine',B*2*st(12-i*2),0,0.1,0.05,0.62+i*0.045); },
+    doneA:()=>{ for(let i=0;i<12;i++){ const n=[0,4,7,12,7,12,16,12,16,19,16,24][i]; coin(B*st(n),i*0.075,0.55,0.16);}
+                [0,4,7,12].forEach(n=>tone('triangle',B*st(n+12)/2,0,1.2,0.07,0.95,0.02)); },
+    doneB:()=>{ coin(B,0); coin(B*st(7),0.16); [0,4,7,12].forEach(n=>tone('triangle',B*st(n),0,1.0,0.08,0.38,0.02)); tone('sine',B*st(24),0,0.6,0.03,0.4); },
+    pomoA:()=>{ tone('triangle',B*st(4),0,1.1,0.2,0,0.005); tone('sine',B*st(16),0,0.6,0.04,0); tone('triangle',B,0,1.4,0.2,0.45,0.005); tone('sine',B*2,0,0.8,0.04,0.45); },
+    pomoB:()=>{ plink(B*st(12),0,1,0.6); plink(B*st(7),0.35,1,0.6); plink(B,0.7,1,1.0); },
+  };
+})();
+</script>

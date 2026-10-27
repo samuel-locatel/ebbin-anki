@@ -1,0 +1,8 @@
+#separator:tab
+#html:true
+#notetype:IKKZ__TF.PT_BR
+#tags column:4
+#deck column:5
+Enunciado <b>um</b>	Verdadeiro<br>sim	Comentário	prova tag2	Teste::Prova::Um
+Enunciado dois	Falso	Comentário 2	prova	Teste::Prova::Dois
+Enunciado três	Verdadeiro	C3	prova	Teste::Prova::Um

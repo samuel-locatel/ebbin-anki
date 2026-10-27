@@ -1,0 +1,208 @@
+/* Ebbin hand-drawn skin for Anki's own screens (approved mockup: docs/mockups/review-card.html).
+   Loaded after theme.css (fonts) only when config "skin" is true; every rule is scoped under
+   body.ebbin-skin plus a page class set by skin.js:
+     .ebbin-reviewer  card webview (aqt.reviewer.Reviewer)
+     .ebbin-bottom    bottom bars (ReviewerBottomBar, DeckBrowserBottomBar, OverviewBottomBar)
+     .ebbin-decks     deck list (aqt.deckbrowser.DeckBrowser)
+     .ebbin-overview  deck overview (aqt.overview.Overview)
+     .ebbin-toolbar   top toolbar (aqt.toolbar.TopToolbar)
+   Rough borders use the SVG filters #e-rough / #e-rough2 injected by sketch.js. */
+
+/* ==== 1. Tokens ============================================================================ */
+body.ebbin-skin {
+  --desk: #efede6; --bar: #f4f2ec; --paper: #fbfaf6; --ink: #1f1f1f; --muted: #7a7a74;
+  --line: #e3e1d9; --terra: #cf6f55; --green: #3f7d6a; --hl: #f7ddd4;
+  --amber: #b8892f; --blue: #3b6fb6;
+  --serif: "Iowan Old Style", "Source Serif 4", Georgia, serif;
+  --hand: "Caveat", cursive;
+  --e-hud-h: 58px;
+}
+body.ebbin-skin.night {
+  --desk: #151413; --bar: #1a1918; --paper: #1d1c1a; --ink: #ece8df; --muted: #9a968c;
+  --line: #34322e; --terra: #e58a6f; --green: #7fbfa6; --hl: #5a3a31;
+  --amber: #d9b46a; --blue: #8fb3e0;
+}
+body.ebbin-skin.slate {
+  --desk: #0f1412; --bar: #17201d; --paper: #1f2a26; --ink: #eef0ea; --muted: #a7b3ac;
+  --line: #34433d; --terra: #f2a08a; --green: #a8e0c8; --hl: #6b4a3f;
+  --amber: #d9b46a; --blue: #8fb3e0;
+}
+
+/* ==== 2. Reviewer: page + HUD band ========================================================= */
+/* The note's .card class is on <body>: override only these five properties. */
+body.ebbin-skin.ebbin-reviewer,
+body.ebbin-skin.ebbin-reviewer.card {
+  background-color: var(--desk) !important;
+  color: var(--ink) !important;
+  font-family: var(--serif) !important;
+  line-height: 1.55 !important;
+  text-align: left !important;
+}
+/* In-flow band: the body reserves the HUD height, so the card never sits under it. */
+body.ebbin-skin.ebbin-reviewer { margin: 0; padding: var(--e-hud-h) 20px 24px; }
+body.ebbin-skin.ebbin-reviewer #_flag,
+body.ebbin-skin.ebbin-reviewer #_mark { top: var(--e-hud-h); }
+/* Anki scrolls hr#answer into view after "Mostrar resposta": keep it below the band. */
+body.ebbin-skin.ebbin-reviewer #answer { scroll-margin-top: calc(var(--e-hud-h) + 16px); }
+
+body.ebbin-skin .ebbin.e-topbar {
+  height: var(--e-hud-h); box-sizing: border-box; padding: 4px 22px 0;
+  display: grid; grid-template-columns: auto minmax(90px, 1fr) auto; gap: 18px; align-items: center;
+  background: var(--desk); pointer-events: auto; /* content scrolls under it, not through it */
+  font-family: var(--serif); color: var(--ink); line-height: normal; text-align: left;
+}
+body.ebbin-skin .e-topbar .e-hud-l { display: flex; align-items: baseline; gap: 8px;
+  position: relative; white-space: nowrap; }
+body.ebbin-skin .e-topbar .e-xp { font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
+body.ebbin-skin .e-topbar .e-mission { display: none; } /* replaced by the progress bar */
+body.ebbin-skin .e-topbar .e-hud-r { gap: 16px; }
+body.ebbin-skin .e-topbar .e-combo { font-size: 28px; }
+body.ebbin-skin .e-topbar .e-pomo .t { font-size: 22px; }
+
+/* progress bar: hatched green fill, Caveat label above on the right */
+body.ebbin-skin .e-topbar .e-prog { display: block; position: relative; height: 16px; margin-top: 18px; }
+body.ebbin-skin .e-topbar .e-prog .frame { position: absolute; inset: 0; border: 2px solid var(--ink);
+  border-radius: 10px; filter: url(#e-rough2); }
+body.ebbin-skin .e-topbar .e-prog .a { position: absolute; left: 4px; top: 4px; bottom: 4px; width: 0;
+  border-radius: 6px; transition: width .5s ease-out;
+  background: repeating-linear-gradient(-50deg, var(--green) 0 2.4px, transparent 2.4px 6px); }
+body.ebbin-skin .e-topbar .e-prog .lab { position: absolute; right: 0; top: -22px; font-size: 16px;
+  line-height: 1; color: var(--muted); white-space: nowrap; }
+
+/* "+N" floats next to the total XP */
+body.ebbin-skin .e-topbar .e-hud-l .e-float { position: absolute; left: 100%; top: -4px; right: auto;
+  margin-left: 8px; font-size: 24px; color: var(--terra); }
+
+/* ==== 3. Reviewer: the card sheet ========================================================== */
+body.ebbin-skin.ebbin-reviewer #qa {
+  position: relative; box-sizing: border-box; max-width: 760px; margin: 26px auto;
+  padding: 30px 36px 34px; background: var(--paper); border-radius: 14px; font-size: 23px;
+}
+body.ebbin-skin.ebbin-reviewer #qa::before {
+  content: ""; position: absolute; inset: 0; border: 2.2px solid var(--ink); border-radius: 14px;
+  filter: url(#e-rough); pointer-events: none; opacity: .85;
+}
+/* Card content: only the answer rule and cloze color. Images, tables, links and the note's own
+   markup (e.g. IKKZ True/False circles) are left as the template draws them. */
+body.ebbin-skin.ebbin-reviewer #qa hr#answer {
+  border: 0; height: 2px; background: var(--line); margin: 22px 0; filter: url(#e-rough2);
+}
+body.ebbin-skin.ebbin-reviewer #qa .cloze { color: var(--terra); }
+
+/* ==== 4. Bottom bars (reviewer, deck list, overview) ======================================= */
+body.ebbin-skin.ebbin-bottom { background: var(--bar); color: var(--ink); }
+body.ebbin-skin.ebbin-bottom #outer { border-top: 1px solid var(--line); }
+
+/* hand-drawn button: transparent, rough 2px border in currentColor */
+body.ebbin-skin.ebbin-bottom button,
+body.ebbin-skin.ebbin-overview #study {
+  position: relative; z-index: 0; background: transparent; border: 0; border-radius: 12px;
+  box-shadow: none; color: var(--ink); font-family: var(--serif); font-size: 17px; font-weight: 400;
+  padding: 8px 18px; min-width: 96px; cursor: pointer;
+}
+body.ebbin-skin.ebbin-bottom button::before,
+body.ebbin-skin.ebbin-overview #study::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border: 2px solid currentColor;
+  border-radius: 12px; filter: url(#e-rough2); pointer-events: none;
+}
+body.ebbin-skin.ebbin-bottom button:hover,
+body.ebbin-skin.ebbin-bottom button:focus-visible {
+  background: color-mix(in srgb, currentColor 10%, transparent); border: 0; box-shadow: none;
+}
+body.ebbin-skin.ebbin-bottom button:active { box-shadow: none; transform: translateY(1px); }
+
+/* reviewer bottom bar (#innertable): fixed button height so the question and the answer state
+   have the same height (Anki measures the bar once when the review starts). */
+body.ebbin-skin.ebbin-bottom #innertable button {
+  height: 50px; box-sizing: border-box; padding: 4px 18px; margin: 6px 7px;
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+}
+/* "Mostrar resposta": solid ink with paper text */
+body.ebbin-skin.ebbin-bottom #ansbut,
+body.ebbin-skin.ebbin-bottom #ansbut:hover,
+body.ebbin-skin.ebbin-bottom #ansbut:focus-visible { background: var(--ink); color: var(--paper); }
+body.ebbin-skin.ebbin-bottom #ansbut::before { border-color: var(--ink); }
+/* answer buttons colored by ease (Anki markup: <button data-ease="1..4">) */
+body.ebbin-skin.ebbin-bottom button[data-ease="1"] { color: var(--terra); }
+body.ebbin-skin.ebbin-bottom button[data-ease="2"] { color: var(--amber); }
+body.ebbin-skin.ebbin-bottom button[data-ease="3"] { color: var(--green); }
+body.ebbin-skin.ebbin-bottom button[data-ease="4"] { color: var(--blue); }
+/* interval (<span class="nobold">) under the label, in Caveat muted */
+body.ebbin-skin.ebbin-bottom #middle .nobold {
+  position: static; display: block; transform: none; font-family: var(--hand); font-weight: 600;
+  font-size: 17px; line-height: 1; color: var(--muted);
+}
+/* counts line ("13 + 5 + 23", .stattxt above "Mostrar resposta") and the timer: Anki's
+   colors, skin font */
+body.ebbin-skin.ebbin-bottom .stattxt { font-family: var(--serif); font-size: 14px; color: var(--muted); }
+
+/* ==== 5. Deck list ========================================================================= */
+/* Only Anki's deck table (it has th.count) and #studiedToday: other add-ons' widgets (Review
+   Heatmap etc.) keep their own look. Width matches the Ebbin strip (720px). */
+body.ebbin-skin.ebbin-decks { background-color: var(--desk); }
+body.ebbin-skin.ebbin-decks center > table:has(th.count),
+body.ebbin-skin.ebbin-decks center > table:has(th.count):hover {
+  position: relative; box-sizing: border-box; width: min(720px, 100%); margin: 0 auto;
+  padding: 16px 20px 18px; background: var(--paper); border: 0; border-radius: 14px; box-shadow: none;
+  color: var(--ink); font-family: var(--serif); font-size: 17px; text-align: left;
+}
+body.ebbin-skin.ebbin-decks center > table:has(th.count)::before {
+  content: ""; position: absolute; inset: 0; border: 2.4px solid var(--ink); border-radius: 14px;
+  filter: url(#e-rough); pointer-events: none; opacity: .9;
+}
+body.ebbin-skin.ebbin-decks center > table:has(th.count) th {
+  font-family: var(--hand); font-size: 21px; font-weight: 600; color: var(--muted);
+  border-bottom: 1px solid var(--line); padding-bottom: 4px;
+}
+body.ebbin-skin.ebbin-decks center > table:has(th.count) tr.deck td {
+  border: 0; border-bottom: 1px solid var(--line); padding: 5px 12px;
+}
+body.ebbin-skin.ebbin-decks center > table:has(th.count) a.deck { color: var(--ink); font-family: var(--serif); }
+body.ebbin-skin.ebbin-decks center > table:has(th.count) a.deck.filtered { color: var(--blue) !important; }
+body.ebbin-skin.ebbin-decks center > table:has(th.count) .collapse { color: var(--muted); }
+/* current deck: marker highlight; hover: a lighter marker */
+body.ebbin-skin.ebbin-decks center > table:has(th.count) tr.current td { background: var(--hl); }
+body.ebbin-skin.ebbin-decks center > table:has(th.count) tr:hover:not(.top-level-drag-row):not(.current) td {
+  background: color-mix(in srgb, var(--hl) 45%, transparent);
+}
+body.ebbin-skin.ebbin-decks center > table:has(th.count) .gears { opacity: .4; }
+body.ebbin-skin.ebbin-decks #studiedToday { color: var(--muted); font-family: var(--serif); font-size: 16px; }
+
+/* ==== 6. Deck overview ===================================================================== */
+body.ebbin-skin.ebbin-overview { background-color: var(--desk); color: var(--ink); }
+body.ebbin-skin.ebbin-overview center > h3 {
+  font-family: var(--hand); font-size: 36px; font-weight: 700; color: var(--ink); margin-bottom: 10px;
+}
+body.ebbin-skin.ebbin-overview .descfont { font-family: var(--serif); color: var(--muted); }
+/* counts table + "Estudar agora" as one hand-drawn sheet */
+body.ebbin-skin.ebbin-overview center > table:has(#study) {
+  position: relative; margin-top: 14px; padding: 10px 14px; background: var(--paper);
+  border-radius: 14px; font-family: var(--serif); font-size: 17px; color: var(--ink);
+}
+body.ebbin-skin.ebbin-overview center > table:has(#study)::before {
+  content: ""; position: absolute; inset: 0; border: 2.4px solid var(--ink); border-radius: 14px;
+  filter: url(#e-rough); pointer-events: none; opacity: .9;
+}
+body.ebbin-skin.ebbin-overview #study,
+body.ebbin-skin.ebbin-overview #study:hover {
+  background: var(--ink); color: var(--paper); font-size: 18px; padding: 10px 22px;
+}
+body.ebbin-skin.ebbin-overview #study::before { border-color: var(--ink); }
+body.ebbin-skin.ebbin-overview #study:active { box-shadow: none; transform: translateY(1px); }
+
+/* ==== 7. Top toolbar ======================================================================= */
+body.ebbin-skin.ebbin-toolbar { background: var(--desk); }
+body.ebbin-skin.ebbin-toolbar .header .toolbar {
+  background: transparent; box-shadow: none; backdrop-filter: none;
+}
+body.ebbin-skin.ebbin-toolbar .header .hitem,
+body.ebbin-skin.ebbin-toolbar .header .hitem:hover {
+  position: relative; background: transparent; border: 1px solid transparent; box-shadow: none;
+  font-family: var(--serif); font-size: 16px; font-weight: 400; color: var(--ink); text-decoration: none;
+}
+body.ebbin-skin.ebbin-toolbar .header .hitem:hover::after,
+body.ebbin-skin.ebbin-toolbar .header .hitem:active::after,
+body.ebbin-skin.ebbin-toolbar .header .hitem:focus-visible::after {
+  content: ""; position: absolute; left: 10px; right: 10px; bottom: 1px; height: 3px;
+  background: var(--terra); border-radius: 3px; filter: url(#e-rough2);
+}

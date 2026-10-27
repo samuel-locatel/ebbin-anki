@@ -1,0 +1,8 @@
+#separator:tab
+#html:false
+#notetype:Básico
+#tags column:3
+#deck column:4
+Qual a capital da França?	Paris	geo capitais	Teste::Geo::Europa
+Qual a capital da Itália?	Roma	geo	Teste::Geo::Europa
+Quanto é 2+2?	4	mat	Teste::Mat

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.superpowers/
+.pytest_cache/
+ebbin/user_files/*.json
+tests/js/_block.js
+dist/
+.DS_Store
+ebbin/meta.json
